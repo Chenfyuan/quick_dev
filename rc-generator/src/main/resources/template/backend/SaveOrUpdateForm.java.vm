@@ -1,0 +1,57 @@
+package ${package}.${moduleName}.model.request;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import lombok.experimental.SuperBuilder;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+
+/**
+ * 新增/编辑${comments} SaveOrUpdateForm
+ *
+ * @author ${author}
+ */
+@Accessors(chain = true)
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class ${className}SaveOrUpdateForm implements Serializable {
+
+    private static final long SerialVersionUID = 1L;
+
+    @ApiModelProperty(value = "主键ID", hidden = true, notes = "仅更新时使用")
+    private Long id;
+#foreach ($column in $columns)
+#if($column.columnName != $pk.columnName
+    && $column.columnName != "tenant_id"
+    && $column.columnName != "revision"
+    && $column.columnName != "del_flag"
+    && $column.columnName != "created_at"
+    && $column.columnName != "created_by"
+    && $column.columnName != "updated_at"
+    && $column.columnName != "updated_by"
+    && $column.columnName != "remark"
+)
+
+    @ApiModelProperty(value = "$column.comments"#if(!$column.nullable), required = true#end)
+#if(!$column.nullable)
+#if($column.attrType == 'String')
+    @Size(min = 1, max = $column.characterMaximumLength, message = "【$column.comments】长度须在 1 至 $column.characterMaximumLength 位之间")
+    @NotBlank(message = "$column.comments不能为空")
+#else
+    @NotNull(message = "$column.comments不能为空")
+#end
+#end
+    private $column.attrType $column.camelAttrName;
+#end
+#end
+
+}

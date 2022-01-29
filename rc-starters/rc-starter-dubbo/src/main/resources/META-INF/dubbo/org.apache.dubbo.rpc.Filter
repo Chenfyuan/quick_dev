@@ -1,0 +1,3 @@
+rcDubboExceptionFilter=cc.rc.framework.dubbo.filter.RcDubboExceptionFilter
+consumerContext=cc.rc.framework.dubbo.filter.ConsumerContextFilter
+providerContext=cc.rc.framework.dubbo.filter.ProviderContextFilter

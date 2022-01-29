@@ -1,0 +1,4 @@
+cc\rc\module\minio\config\MinioAutoConfiguration.class
+cc\rc\module\minio\service\MinioService.class
+META-INF\spring-configuration-metadata.json
+cc\rc\module\minio\config\MinioConfig.class

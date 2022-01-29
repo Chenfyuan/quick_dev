@@ -1,0 +1,149 @@
+package ${package}.${moduleName}.controller;
+
+#if(${generateType} == 'boot')
+import cc.rc.framework.core.constant.RcConstant;
+import cc.rc.framework.core.page.PageParam;
+import cc.rc.framework.core.page.PageResult;
+import cc.rc.framework.web.model.request.IdsDTO;
+import cc.rc.framework.web.model.response.ApiResult;
+import ${package}.${moduleName}.model.trans.${className}DTO;
+import ${package}.${moduleName}.model.request.${className}SaveOrUpdateForm;
+import ${package}.${moduleName}.model.request.${className}QueryForm;
+import ${package}.${moduleName}.model.response.${className}VO;
+import ${package}.${moduleName}.service.${className}Service;
+import ${package}.sys.constant.SysConstant;
+import ${package}.sys.util.AdminStpUtil;
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import cc.rc.framework.core.util.BeanUtils;
+import javax.annotation.Resource;
+import javax.validation.Valid;
+#end
+#if(${generateType} == 'cloud')
+import cc.rc.framework.core.constant.RcConstant;
+import cc.rc.framework.core.page.PageParam;
+import cc.rc.framework.core.page.PageResult;
+import cc.rc.framework.web.model.request.IdsDTO;
+import cc.rc.framework.web.model.response.ApiResult;
+import ${package}.${moduleName}.facade.${className}Facade;
+import ${package}.${moduleName}.model.trans.${className}QueryForm;
+import ${package}.${moduleName}.model.trans.${className}SaveOrUpdateForm;
+import ${package}.${moduleName}.model.response.${className}VO;
+import ${package}.util.AdminStpUtil;
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+#end
+
+
+/**
+ * ${comments}管理接口
+ *
+ * @author ${author}
+ */
+@SaCheckLogin(type = AdminStpUtil.TYPE)
+@Slf4j
+@Api(value = "${comments}管理接口", tags = {"${comments}管理接口"})
+#if(${generateType} == 'boot')
+@RequestMapping(SysConstant.SYS_MODULE_CONTEXT_PATH + RcConstant.Version.HTTP_API_VERSION_V1 + "/${classname}s")
+#end
+#if(${generateType} == 'cloud')
+@RequestMapping(RcConstant.Version.HTTP_API_VERSION_V1 + "/${classname}s")
+#end
+@RestController
+public class ${className}Controller {
+
+    // 功能权限串前缀
+    private static final String PERMISSION_PREFIX = "${className}:" ;
+
+#if(${generateType} == 'boot')
+    @Resource
+    private ${className}Service ${classname}Service;
+#end
+#if(${generateType} == 'cloud')
+    @DubboReference(version = RcConstant.Version.DUBBO_VERSION_V1, validation = RcConstant.Dubbo.ENABLE_VALIDATION)
+    private ${className}Facade ${classname}Facade;
+#end
+
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + RcConstant.Permission.RETRIEVE)
+    @ApiOperation(value = "分页列表", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
+    public ApiResult<PageResult<${className}VO>> list(PageParam pageParam, ${className}QueryForm form) {
+        //Beanutils.copy(form,dto);
+#if(${generateType} == 'boot')
+        return ApiResult.data(${classname}Service.queryPage(pageParam, BeanUtils.copy(form, ${className}DTO.class)));
+#end
+#if(${generateType} == 'cloud')
+        return ApiResult.data(${classname}Facade.queryPage(pageParam,BeanUtils.copy(form, ${className}DTO.class)));
+#end
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + RcConstant.Permission.RETRIEVE)
+    @ApiOperation(value = "详情", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}")
+    public ApiResult<${className}VO> getById(@PathVariable Long id) {
+#if(${generateType} == 'boot')
+        return ApiResult.data(${classname}Service.getOneById(id));
+#end
+#if(${generateType} == 'cloud')
+        return ApiResult.data(${classname}Facade.getOneById(id));
+#end
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + RcConstant.Permission.CREATE)
+    @ApiOperation(value = "新增", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
+    public ApiResult<?> insert(@RequestBody @Valid ${className}SaveOrUpdateForm form) {
+#if(${generateType} == 'boot')
+        ${classname}Service.saveEntity(BeanUtils.copy(form, ${className}DTO.class));
+#end
+#if(${generateType} == 'cloud')
+        ${classname}Facade.saveEntity(BeanUtils.copy(form, ${className}DTO.class));
+#end
+
+        return ApiResult.success();
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + RcConstant.Permission.UPDATE)
+    @ApiOperation(value = "编辑", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}")
+    public ApiResult<?> update(@PathVariable Long id, @RequestBody @Valid ${className}SaveOrUpdateForm form) {
+        form.setId(id);
+#if(${generateType} == 'boot')
+        ${classname}Service.updateEntity(BeanUtils.copy(form, ${className}DTO.class));
+#end
+#if(${generateType} == 'cloud')
+        ${classname}Facade.updateEntity(BeanUtils.copy(form, ${className}DTO.class));
+#end
+
+        return ApiResult.success();
+    }
+
+    @SaCheckPermission(type = AdminStpUtil.TYPE, value = PERMISSION_PREFIX + RcConstant.Permission.DELETE)
+    @ApiOperation(value = "删除", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping
+    public ApiResult<?> delete(@RequestBody @Valid IdsDTO<Long> dto) {
+#if(${generateType} == 'boot')
+        ${classname}Service.deleteEntity(dto.getIds());
+#end
+#if(${generateType} == 'cloud')
+        ${classname}Facade.deleteEntity(dto.getIds());
+#end
+
+        return ApiResult.success();
+    }
+
+}

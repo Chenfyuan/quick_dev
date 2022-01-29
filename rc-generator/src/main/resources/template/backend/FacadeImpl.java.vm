@@ -1,0 +1,62 @@
+package ${package}.${moduleName}.biz;
+
+import cc.rc.framework.core.constant.RcConstant;
+import cc.rc.framework.core.page.PageParam;
+import cc.rc.framework.core.page.PageResult;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboService;
+
+import ${package}.${moduleName}.facade.${className}Facade;
+import ${package}.${moduleName}.model.request.AdminInsertOrUpdate${className}DTO;
+import ${package}.${moduleName}.model.request.AdminList${className}DTO;
+import ${package}.${moduleName}.model.response.${className}BO;
+import ${package}.${moduleName}.service.${className}Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+
+/**
+ * ${comments} Facade 接口实现类
+ *
+ * @author ${author}
+ */
+@Slf4j
+@DubboService(
+        version = RcConstant.Version.DUBBO_VERSION_V1,
+        validation = RcConstant.Dubbo.ENABLE_VALIDATION,
+        timeout = RcConstant.Dubbo.TIMEOUT,
+        retries = RcConstant.Dubbo.RETRIES
+)
+public class ${className}FacadeImpl implements ${className}Facade {
+
+    @Resource
+    private ${className}Service ${classname}Service;
+
+
+    @Override
+    public PageResult<${className}BO> adminList(PageParam pageParam, AdminList${className}DTO dto) {
+        return ${classname}Service.adminList(pageParam, dto);
+    }
+
+    @Override
+    public ${className}BO getOneById(Long entityId) {
+        return ${classname}Service.getOneById(entityId);
+    }
+
+    @Override
+    public Long adminInsert(AdminInsertOrUpdate${className}DTO dto) {
+        return ${classname}Service.adminInsert(dto);
+    }
+
+    @Override
+    public void adminUpdate(AdminInsertOrUpdate${className}DTO dto) {
+            ${classname}Service.adminUpdate(dto);
+    }
+
+    @Override
+    public void adminDelete(List<Long> ids) {
+            ${classname}Service.adminDelete(ids);
+    }
+
+}

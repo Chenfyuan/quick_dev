@@ -1,0 +1,91 @@
+package ${package}.${moduleName}.service;
+import cc.rc.framework.crud.service.RcBaseService;
+import cc.rc.framework.core.page.PageParam;
+import cc.rc.framework.core.page.PageResult;
+import java.io.Serializable;
+import ${package}.sys.enums.SysErrorEnum;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.model.trans.${className}DTO;
+import ${package}.${moduleName}.model.response.${className}VO;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import java.util.List;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ */
+public interface  ${className}Service  extends RcBaseService<${className}Entity> {
+
+    /**
+         * 新增
+         *
+         * @param dto:
+         * @return java.lang.Long
+         * @author weijian.lin
+         * @date 2022/1/27
+         */
+
+    Long saveEntity(${className}DTO dto);
+
+    /**
+     * 更新
+     *
+     * @return void
+     * @author weijian.lin
+     * @date 2022/1/27
+     */
+
+    void updateEntity(${className}DTO dto);
+
+    /**
+     * 删除
+     *
+     * @param ids:
+     * @return void
+     * @author weijian.lin
+     * @date 2022/1/27
+     */
+
+    void deleteEntity(List<Long> ids);
+
+    /**
+     * 分页查询
+     *
+     * @param pageParam:
+     * @param dto:
+     * @return cc.rc.framework.core.page.PageResult<com.rootcloud.module.parts.model.response.${className}VO>
+     * @author weijian.lin
+     * @date 2022/1/27
+     */
+    PageResult<${className}VO> queryPage(PageParam pageParam, ${className}DTO dto);
+
+    /**
+     * 查询列表
+     *
+     * @param dto:
+     * @return java.util.List<com.rootcloud.module.parts.model.response.${className}VO>
+     * @author weijian.lin
+     * @date 2022/1/27
+     */
+
+    List<${className}VO> queryList(${className}DTO dto);
+
+    /**
+     * 根据ID查询详情
+     *
+     * @param entityId:
+     * @return com.rootcloud.module.parts.model.response.${className}VO
+     * @author weijian.lin
+     * @date 2022/1/27
+     */
+
+    ${className}VO getOneById(Serializable entityId);
+
+}

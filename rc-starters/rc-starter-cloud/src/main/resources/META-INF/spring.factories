@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cc.rc.framework.cloud.config.NacosDiscoveryAutoConfiguration,\
+  cc.rc.framework.cloud.config.NacosConfigAutoConfiguration

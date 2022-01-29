@@ -1,0 +1,25 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="${package}.module.sys.mapper.SysUserMapper">
+
+    <update id="updateLastLoginAt">
+        UPDATE sys_user
+        SET last_login_at = ${symbol_pound}{lastLoginAt}
+        WHERE id = ${symbol_pound}{userId}
+    </update>
+
+    <select id="getBaseInfoByUserId" resultType="${package}.module.sys.model.response.SysUserBaseInfoVO">
+        SELECT pin AS username,
+               nickname,
+               status,
+               gender,
+               email,
+               phone_no
+        FROM sys_user
+        WHERE id = ${symbol_pound}{userId} LIMIT 1
+    </select>
+
+</mapper>

@@ -1,0 +1,164 @@
+package ${package}.${moduleName}.service.impl;
+import cc.rc.framework.core.constant.RcConstant;
+import cc.rc.framework.core.exception.BusinessException;
+import cc.rc.framework.core.page.PageParam;
+import cc.rc.framework.core.page.PageResult;
+import cc.rc.framework.crud.service.impl.RcBaseServiceImpl;
+package ${package}.${moduleName}.service.${className}Service;
+import ${package}.sys.annotation.SysLog;
+import ${package}.sys.enums.SysErrorEnum;
+import ${package}.${moduleName}.entity.${className}Entity;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import ${package}.${moduleName}.model.trans.${className}DTO;
+import ${package}.${moduleName}.model.response.${className}VO;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import java.util.ArrayList;
+import java.util.List;
+import cc.rc.framework.core.util.BeanUtils;
+import java.io.Serializable;
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ */
+@Slf4j
+@Service
+public class ${className}ServiceImpl extends RcBaseServiceImpl<${className}Mapper, ${className}Entity> implements ${className}Service {
+
+
+    /**
+     * 构建查询条件
+     *
+     * @param dto:
+     * @return com.baomidou.mybatisplus.core.conditions.query.QueryWrapper<com.rootcloud.module.parts.entity.${className}Entity>
+     * @author weijian.lin
+     * @date 2022/1/27
+     */
+    private LambdaQueryWrapper<${className}Entity> queryCondition(${className}DTO dto) {
+      return  new QueryWrapper<${className}Entity>()
+        .lambda()
+            #foreach ($column in $columns)
+                #if($column.columnName != $pk.columnName
+                && $column.columnName != "tenant_id"
+                && $column.columnName != "revision"
+                && $column.columnName != "del_flag"
+                && $column.columnName != "created_at"
+                && $column.columnName != "created_by"
+                && $column.columnName != "updated_at"
+                && $column.columnName != "updated_by"
+                && $column.columnName != "remark"
+                )
+                        // $column.comments
+                    #if($column.attrType == 'String')
+                    .like(StrUtil.isNotBlank(dto.get${column.pascalAttrName}()), ${className}Entity::get$column.pascalAttrName, StrUtil.cleanBlank(dto.get${column.pascalAttrName}()))
+                    #else
+                    .eq(ObjectUtil.isNotNull(dto.get${column.pascalAttrName}()), ${className}Entity::get$column.pascalAttrName, dto.get${column.pascalAttrName}())
+                    #end
+                #end
+            #end
+                // 时间区间
+                .between(ObjectUtil.isNotNull(dto.getBeginAt()) && ObjectUtil.isNotNull(dto.getEndAt()), ${className}Entity::getCreatedAt, dto.getBeginAt(), dto.getEndAt())
+                // 排序
+                .orderByDesc(${className}Entity::getCreatedAt);
+    }
+
+    /**
+     * 后台管理-新增
+     */
+    @SysLog(value = "新增配件分类管理")
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public Long saveEntity(${className}DTO dto) {
+        this.checkExistence(dto);
+
+        dto.setId(null);
+        ${className}Entity entity = new ${className}Entity();
+        BeanUtil.copyProperties(dto, entity);
+
+        this.save(entity);
+
+        return entity.getId();
+    }
+
+    /**
+     * 后台管理-编辑
+     */
+    @SysLog(value = "编辑配件分类管理")
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void updateEntity(${className}DTO dto) {
+        this.checkExistence(dto);
+
+        ${className}Entity entity = new ${className}Entity();
+        BeanUtil.copyProperties(dto, entity);
+
+        this.updateById(entity);
+    }
+
+    /**
+     * 后台管理-删除
+     */
+    @SysLog(value = "删除配件分类管理")
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteEntity(List<Long> ids) {
+        this.removeByIds(ids);
+    }
+
+
+    @Override
+    public PageResult<${className}VO> queryPage(PageParam pageParam, ${className}DTO dto) {
+        Page<${className}Entity> entityPage = this.page(new Page<>(pageParam.getPageNum(), pageParam.getPageSize()), queryCondition(dto));
+        PageResult<${className}VO> page = new PageResult<>();
+        List<${className}Entity> records = entityPage.getRecords();
+        return page;
+    }
+
+    @Override
+    public List<${className}VO> queryList(${className}DTO dto) {
+        List<${className}Entity> entityList = this.list(queryCondition(dto));
+
+        return BeanUtils.copyList(entityList, ${className}VO.class);
+    }
+
+
+    @Override
+    public ${className}VO getOneById(Serializable entityId) {
+        ${className}Entity entity = this.getById(entityId);
+        SysErrorEnum.INVALID_ID.assertNotNull(entity);
+        return BeanUtils.copy(entity, ${className}VO.class);
+    }
+
+
+    /**
+     * 检查是否已存在同名数据
+     *
+     * @param dto DTO
+     */
+    private void checkExistence(${className}DTO dto) {
+        /*
+        可以根据自己业务需要，解禁这段代码，修改判断条件和文案
+
+        ${className}Entity existingEntity = this.getOne(
+                new QueryWrapper<${className}Entity>()
+                        .select(RcConstant.CRUD.SQL_COLUMN_ID)
+                        .lambda()
+                        .eq(${className}Entity::getTitle, dto.getTitle())
+                        .last(RcConstant.CRUD.SQL_LIMIT_1)
+        );
+
+        if (existingEntity != null && !existingEntity.getId().equals(dto.getId())) {
+            throw new BusinessException(400, "已存在相同配件分类管理，请重新输入");
+        }
+        */
+    }
+
+}

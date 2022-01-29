@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cc.rc.framework</groupId>
+  <artifactId>rc-spring-boot-archetype</artifactId>
+  <version>1.4.0</version>
+  <packaging>maven-archetype</packaging>
+
+  <name>rc-spring-boot-archetype</name>
+
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.archetype</groupId>
+        <artifactId>archetype-packaging</artifactId>
+        <version>3.0.0</version>
+      </extension>
+    </extensions>
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-archetype-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <description>Parent pom providing dependency and plugin management for applications built with Maven</description>
+
+  <url>https://spring.io/projects/spring-boot/rc-starters/rc-spring-boot</url>
+
+  <developers>
+    <developer>
+      <name>weijian.lin</name>
+      <email>weijian.lin@rootcloud.com</email>
+      <organization>rootcloud</organization>
+      <organizationUrl>https://www.rootcloud.com/</organizationUrl>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/spring-projects/spring-boot/rc-starters/rc-spring-boot</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>ai-platform-releases</id>
+      <url>http://nexus.irootechapp.com/repository/ai-platform-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ai-platform-snapshots</id>
+      <url>http://nexus.irootechapp.com/repository/ai-platform-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+</project>

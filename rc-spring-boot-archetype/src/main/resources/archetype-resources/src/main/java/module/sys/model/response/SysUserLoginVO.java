@@ -1,0 +1,54 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+package ${package}.module.sys.model.response;
+
+import cc.rc.framework.core.context.TenantContext;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.List;
+
+
+/**
+ * 后台用户BO
+ * 用于登录后返回字段
+ * @author linweijian
+ */
+@Accessors(chain = true)
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class SysUserLoginVO implements Serializable {
+
+    @ApiModelProperty(value = "用户ID")
+    private Long id;
+
+    @ApiModelProperty(value = "账号")
+    private String username;
+
+    @ApiModelProperty(value = "昵称")
+    private String nickname;
+
+    @ApiModelProperty(value = "手机号")
+    private String phoneNo;
+
+    @ApiModelProperty(value = "对应角色ID")
+    private List<Long> roleIds;
+
+    @ApiModelProperty(value = "对应角色")
+    private List<String> roles;
+
+    @ApiModelProperty(value = "拥有权限")
+    private List<String> permissions;
+
+    @ApiModelProperty(value = "所属租户")
+    private TenantContext relationalTenant;
+
+}
