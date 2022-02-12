@@ -1,108 +1,161 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>RC代码生成器</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/AdminLTE.min.css">
-  <!-- AdminLTE Skins. Choose a skin from the css/skins
-       folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="css/all-skins.min.css">
-  <link rel="stylesheet" href="css/main.css">
-</head>
-<!-- ADD THE CLASS layout-boxed TO GET A BOXED LAYOUT -->
-<body class="hold-transition skin-blue sidebar-mini">
-<!-- Site wrapper -->
-<div class="wrapper" id="rrapp" v-cloak>
-  <header class="main-header">
-    <a href="javascript:void(0);" class="logo">
-      <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>RC</b></span>
-      <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>RC代码生成器</b></span>
-    </a>
-    <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top" role="navigation">
-      <!-- Sidebar toggle button-->
-      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-        <span class="sr-only">Toggle navigation</span>
-      </a>
-	  <div style="float:left;color:#fff;padding:15px 10px;"></div>
-      <div class="navbar-custom-menu">
-<!--        <ul class="nav navbar-nav">-->
-<!--          <li><a href="http://www.renren.io" target="_blank"><i class="fa fa-home"></i> &nbsp;编程教程</a></li>-->
-<!--		  <li><a href="http://www.renren.io/open/" target="_blank"><i class="fa fa-lock"></i> &nbsp;项目文档</a></li>-->
-<!--		</ul>-->
-      </div>
-    </nav>
-  </header>
+<!doctype html>
+<html class="x-admin-sm">
+    <head>
+        <meta charset="UTF-8">
+        <title>代码生成器</title>
+        <meta name="renderer" content="webkit|ie-comp|ie-stand">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <meta http-equiv="Cache-Control" content="no-siteapp" />
+        <link rel="stylesheet" href="./css/font.css">
+        <link rel="stylesheet" href="./css/xadmin.css">
+        <!-- <link rel="stylesheet" href="./css/theme5.css"> -->
+        <script src="./lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="./js/xadmin.js"></script>
+        <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script>
+            // 是否开启刷新记忆tab功能
+            // var is_remember = false;
+        </script>
+    </head>
+    <body class="index">
+        <!-- 顶部开始 -->
+        <div class="container">
+            <div class="logo">
+                <a href="./index.html">快速代码生成器V1.0</a></div>
+            <div class="left_open">
+                <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
+            </div>
+            <ul class="layui-nav left fast-add" lay-filter="">
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="javascript:;">+新增</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        &lt;!&ndash; 二级菜单 &ndash;&gt;-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.open('最大化','http://www.baidu.com','','',true)">-->
+<!--                                <i class="iconfont">&#xe6a2;</i>弹出最大化</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.open('弹出自动宽高','http://www.baidu.com')">-->
+<!--                                <i class="iconfont">&#xe6a8;</i>弹出自动宽高</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.open('弹出指定宽高','http://www.baidu.com',500,300)">-->
+<!--                                <i class="iconfont">&#xe6a8;</i>弹出指定宽高</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.add_tab('在tab打开','member-list.html')">-->
+<!--                                <i class="iconfont">&#xe6b8;</i>在tab打开</a></dd>-->
+<!--                        <dd>-->
+<!--                            <a onclick="xadmin.add_tab('在tab打开刷新','member-del.html',true)">-->
+<!--                                <i class="iconfont">&#xe6b8;</i>在tab打开刷新</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+            </ul>
+            <ul class="layui-nav right" lay-filter="">
+                <li class="layui-nav-item">
+                    <a href="javascript:;">admin</a>
+                    <dl class="layui-nav-child">
+                        <!-- 二级菜单 -->
+                        <dd>
+                            <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                        <dd>
+                            <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                        <dd>
+                            <a href="./login.html">退出</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <!-- 顶部结束 -->
+        <!-- 中部开始 -->
+        <!-- 左侧菜单开始 -->
+<!--        <div class="left-nav">-->
+<!--            <div id="side-nav">-->
+<!--                <ul id="nav">-->
+<!--                    <li>-->
+<!--                        <a href="javascript:;">-->
+<!--                            <i class="iconfont left-nav-li" lay-tips="首页">&#xe6b8;</i>-->
+<!--                            <cite>会员管理</cite>-->
+<!--                            <i class="iconfont nav_right">&#xe697;</i></a>-->
+<!--                        <ul class="sub-menu">-->
+<!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <a onclick="xadmin.add_tab('统计页面','welcome1.html')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="iconfont">&#xe6a7;</i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <cite>统计页面</cite></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <a onclick="xadmin.add_tab('会员列表(静态表格)','member-list.html')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="iconfont">&#xe6a7;</i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <cite>会员列表(静态表格)</cite></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+<!--                            <li>-->
+<!--                                <a onclick="xadmin.add_tab('会员列表(动态表格)','member-list1.html',true)">-->
+<!--                                    <i class="iconfont">&#xe6a7;</i>-->
+<!--                                    <cite>会员列表(动态表格)</cite></a>-->
+<!--                            </li>-->
+<!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <a onclick="xadmin.add_tab('会员删除','member-del.html')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="iconfont">&#xe6a7;</i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <cite>会员删除</cite></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <a href="javascript:;">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="iconfont">&#xe70b;</i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <cite>会员管理</cite>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <i class="iconfont nav_right">&#xe697;</i></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <ul class="sub-menu">&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <a onclick="xadmin.add_tab('会员删除','member-del.html')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <i class="iconfont">&#xe6a7;</i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <cite>会员删除</cite></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <a onclick="xadmin.add_tab('等级管理','member-list1.html')">&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <i class="iconfont">&#xe6a7;</i>&ndash;&gt;-->
+<!--&lt;!&ndash;                                            <cite>等级管理</cite></a>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </li>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                        </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+        <!-- <div class="x-slide_left"></div> -->
+        <!-- 左侧菜单结束 -->
+        <!-- 右侧主体开始 -->
+        <div class="page-content">
+            <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
+                <ul class="layui-tab-title">
+                    <li class="home">
+                        <i class="layui-icon">&#xe68e;</i>我的桌面</li></ul>
+                <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
+                    <dl>
+                        <dd data-type="this">关闭当前</dd>
+                        <dd data-type="other">关闭其它</dd>
+                        <dd data-type="all">关闭全部</dd></dl>
+                </div>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <iframe src='./welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                    </div>
+                </div>
+                <div id="tab_show"></div>
+            </div>
+        </div>
+        <div class="page-content-bg"></div>
+        <style id="theme_style"></style>
+        <!-- 右侧主体结束 -->
+        <!-- 中部结束 -->
+        <script>//百度统计可去掉
+            var _hmt = _hmt || []; (function() {
+                var hm = document.createElement("script");
+                hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+                var s = document.getElementsByTagName("script")[0];
+                s.parentNode.insertBefore(hm, s);
+            })();</script>
+    </body>
 
-  <!-- =============================================== -->
-
-  <!-- Left side column. contains the sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- /.search form -->
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">导航菜单</li>
-          <li class="active">
-              <a href="javascript:;"><i class="fa fa-cog"></i><span>代码生成器</span><i class="fa fa-angle-left pull-right"></i></a>
-              <ul class="treeview-menu menu-open" style="display: block;">
-                  <li class="active"><a href="#generator.html"><i class="fa fa-rocket"></i> →生成器</a></li>
-              </ul>
-          </li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
-  <!-- =============================================== -->
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <ol class="breadcrumb" id="nav_title" style="position:static;float:none;">
-        <li class="active"><i class="fa fa-home" style="font-size:20px;position:relative;top:2px;left:-3px;"></i> &nbsp; 首页</li>
-        <li class="active">{{navTitle}}</li>
-      </ol>
-    </section>
-
-    <!-- Main content -->
-    <section class="content" style="background:#fff;">
-      <iframe scrolling="yes" frameborder="0" style="width:100%;min-height:200px;overflow:visible;background:#fff;" :src="main"></iframe>
-    </section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
-
-  <footer class="main-footer">
-    <div class="pull-right hidden-xs">
-      Version 1.0.0
-    </div>
-    Copyright &copy; 2017 <a href="http://www.renren.io" target="_blank">renren.io</a> All Rights Reserved
-  </footer>
-
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
-  
-
-
-</div>
-<!-- ./wrapper -->
-
-<script src="libs/jquery.min.js"></script>
-<script src="libs/vue.min.js"></script>
-<script src="libs/router.js"></script>
-<script src="libs/bootstrap.min.js"></script>
-<script src="libs/fastclick.min.js"></script>
-<script src="libs/app.js"></script>
-<script src="plugins/layer/layer.js"></script>
-<script src="js/index.js"></script>
-</body>
 </html>
