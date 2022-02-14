@@ -82,7 +82,6 @@ public class ${className}Controller {
     @ApiOperation(value = "分页列表", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping
     public ApiResult<PageResult<${className}VO>> list(PageParam pageParam, ${className}QueryForm form) {
-        //Beanutils.copy(form,dto);
 #if(${generateType} == 'boot')
         return ApiResult.data(${classname}Service.queryPage(pageParam, BeanUtils.copy(form, ${className}DTO.class)));
 #end

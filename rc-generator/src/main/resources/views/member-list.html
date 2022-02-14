@@ -39,7 +39,7 @@
                                 </div>
                         </div>
                         <div class="layui-card-body ">
-                            <table class="layui-hide" id="test"></table>
+                            <table class="layui-hide" lay-filter="test" id="test" ></table>
                         </div>
                     </div>
                 </div>
@@ -47,8 +47,11 @@
         </div>
     </body>
     <script type="text/html" id="barDemo">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">配置</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="config" onclick="">配置</a>
+        <a class="layui-btn layui-btn-xs" lay-event="codegen">代码生成</a>
+        <a class="layui-btn layui-btn-xs layui-btn-warm" lay-event="react">React</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="vue">VUE</a>
+        <a class="layui-btn layui-btn-xs" lay-event="angular">ANGULAR</a>
     </script>
     <script>
         layui.use('table', function(){
@@ -67,14 +70,42 @@
                 }
                 ,cols: [[
                     {type:'checkbox', fixed: 'left'}
-                    ,{field:'tableName',  title: '表名', sort: true, fixed: 'left'}
-                    ,{field:'engine',  title: '引擎', sort: true, fixed: 'left'}
+                    ,{field:'tableName',  title: '表名' }
+                    ,{field:'engine',  title: '引擎' }
                     ,{field:'tableComment',  title: '表注释'}
-                    ,{field:'createTime',  title: '创建时间', sort: true}
-                    ,{field:'opt', title:'操作', templet: '#barDemo', unresize: true}
+                    ,{field:'createTime',  title: '创建时间'}
+                    ,{field:'opt',width:400, title:'操作', templet: '#barDemo',fixed: 'right'}
                 ]]
                 ,page: true
             });
+            //监听工具条
+            table.on('tool(test)', function(obj){
+                var data = obj.data;
+                console.log(data);
+                if(obj.event === 'detail'){
+                    layer.msg('ID：'+ data.id + ' 的查看操作');
+                } else if(obj.event === 'codegen'){
+                    layer.confirm('此操作只生成后端代码', function(index){
+                        //生成后端代码
+                        location.href = "sys/generator/code?tables=" +data.tableName + '&generateType=boot'
+                        // $.ajax({
+                        //     type: 'get',
+                        //     url: '/sys/generator/code?tables='+data.tableName+'&generateType=boot',
+                        //     success: function () {//res为相应体,function为回调函数
+                        //        console.log("成功");
+                        //     },
+                        //     error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        //         layer.alert('操作失败！！！' + XMLHttpRequest.status + "|" + XMLHttpRequest.readyState + "|" + textStatus, { icon: 5 });
+                        //     }
+                        // });
+                        layer.close(index);
+                    });
+                } else if(obj.event === 'config'){
+                    xadmin.open(data.tableName+'配置','member-edit.html',null,null,true);
+                }
+            });
+
+
             var $ = layui.$, active = {
                 reload: function(){
                     var demoReload = $('#tableNameInput');
@@ -92,9 +123,7 @@
             };
 
             $('#searchBtn').on('click', function(){
-                console.log("按钮被点击");
                 var type = $(this).data('type');
-                console.log(type);
                 active[type] ? active[type].call(this) : '';
             });
         });
