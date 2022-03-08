@@ -8,6 +8,7 @@
 
 package io.renren.controller;
 
+import io.renren.form.GeneratorPropertiesForm;
 import io.renren.service.SysGeneratorService;
 import io.renren.utils.PageUtils;
 import io.renren.utils.Query;
@@ -49,9 +50,9 @@ public class SysGeneratorController {
 	 * 生成代码
 	 */
 	@RequestMapping("/code")
-	public void code(String tables, String generateType, HttpServletResponse response) throws IOException{
-		byte[] data = sysGeneratorService.generatorCode(tables.split(","), generateType);
-		
+	public void code(GeneratorPropertiesForm form, HttpServletResponse response) throws IOException{
+        String tables=form.getTable();
+		byte[] data = sysGeneratorService.generatorCode(form);
 		response.reset();  
         response.setHeader("Content-Disposition", "attachment; filename=\"" + tables + ".zip\"");
         response.addHeader("Content-Length", "" + data.length);  

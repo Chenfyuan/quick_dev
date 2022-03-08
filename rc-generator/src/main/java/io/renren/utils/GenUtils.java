@@ -7,6 +7,7 @@ import io.renren.entity.ColumnEntity;
 import io.renren.entity.TableEntity;
 import io.renren.entity.mongo.MongoDefinition;
 import io.renren.entity.mongo.MongoGeneratorEntity;
+import io.renren.form.GeneratorPropertiesForm;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -88,7 +89,7 @@ public class GenUtils {
     public static void generatorCode(Map<String, String> table,
                                      List<Map<String, String>> columns,
                                      ZipOutputStream zip,
-                                     String generateType
+                                     GeneratorPropertiesForm form
     ) {
         //配置信息
         Configuration config = getConfig();
@@ -99,6 +100,8 @@ public class GenUtils {
         tableEntity.setTableName(table.get("tableName"));
         tableEntity.setComments(table.get("tableComment"));
         //表名转换成Java类名
+        //去表前缀
+
         String className = tableToJava(tableEntity.getTableName(), config.getStringArray("tablePrefix"));
         tableEntity.setClassName(className);
         tableEntity.setClassname(StringUtils.uncapitalize(className));
@@ -148,13 +151,16 @@ public class GenUtils {
             tableEntity.setPk(tableEntity.getColumns().get(0));
         }
 
+        //属性读取
+     String mainPath=StringUtils.isNotEmpty(form.getMainPath())?form.getMainPath():config.getString("mainPath");
+        String packageName=StringUtils.isNotEmpty(form.getPackageName()) ? form.getPackageName() : config.getString("package");
+      String moduleName= StringUtils.isNotEmpty(form.getModuleName())?form.getModuleName():config.getString("moduleName");
+        String author=StringUtils.isNotEmpty(form.getAuthor())?form.getAuthor(): config.getString("author");
+        String generatorType= StringUtils.isNotEmpty(form.getType())?form.getType():"boot";
         //设置velocity资源加载器
         Properties prop = new Properties();
         prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(prop);
-        String mainPath = config.getString("mainPath");
-        mainPath = StringUtils.isBlank(mainPath) ? "cc.rc" : mainPath;
-
         // 封装模板数据
         Map<String, Object> map = new HashMap<>();
         map.put("tableName", tableEntity.getTableName());
@@ -166,11 +172,11 @@ public class GenUtils {
         map.put("columns", tableEntity.getColumns());
         map.put("hasBigDecimal", hasBigDecimal);
         map.put("hasList", hasList);
-        map.put("mainPath", mainPath);
-        map.put("package", config.getString("package"));
-        map.put("moduleName", config.getString("moduleName"));
-        map.put("author", config.getString("author"));
-        map.put("generateType", generateType);
+        map.put("mainPath",mainPath );
+        map.put("package", packageName);
+        map.put("moduleName",moduleName);
+        map.put("author",author);
+        map.put("generateType",generatorType);
 
         // 生成后台管理菜单主键ID
         Snowflake snowflake = IdUtil.getSnowflake(30L, 30L);
@@ -182,9 +188,8 @@ public class GenUtils {
         map.put("childMenuId4", snowflakeId + 4);
 
         VelocityContext context = new VelocityContext(map);
-
         //获取模板列表
-        List<String> templates = getTemplates(generateType);
+        List<String> templates = getTemplates(StringUtils.isNotEmpty(form.getType())?form.getType():"boot");
         for (String template : templates) {
             //渲染模板
             StringWriter sw = new StringWriter();
@@ -193,7 +198,7 @@ public class GenUtils {
 
             try {
                 //添加到zip
-                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), config.getString("package"), config.getString("moduleName"))));
+                zip.putNextEntry(new ZipEntry(getFileName(template, tableEntity.getClassName(), packageName, moduleName)));
                 IOUtils.write(sw.toString(), zip, "UTF-8");
                 IOUtils.closeQuietly(sw);
                 zip.closeEntry();
@@ -348,7 +353,7 @@ public class GenUtils {
         /*
         后端代码
          */
-        String backendPathPrefix ="";
+        String backendPathPrefix = "";
         if (template.contains("MongoChildrenEntity.java.vm")) {
             return backendPathPrefix + "entity" + File.separator + "inner" + File.separator + currentTableName + File.separator + splitInnerName(className) + "InnerEntity.java";
         }
@@ -361,10 +366,10 @@ public class GenUtils {
         }
 
         if (template.contains("ServiceImpl.java.vm")) {
-            return backendPathPrefix + "service" + File.separator + "impl" +File.separator+className + "ServiceImpl.java";
+            return backendPathPrefix + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
         if (template.contains("Service.java.vm")) {
-            return backendPathPrefix + "service"+File.separator+className + "Service.java";
+            return backendPathPrefix + "service" + File.separator + className + "Service.java";
         }
         if (template.contains("Facade.java.vm")) {
             return backendPathPrefix + "facade" + File.separator + className + "Facade.java";
@@ -375,17 +380,17 @@ public class GenUtils {
         }
 
         if (template.contains("Controller.java.vm")) {
-            return backendPathPrefix + "controller"+ File.separator+className + "Controller.java";
+            return backendPathPrefix + "controller" + File.separator + className + "Controller.java";
         }
 
         if (template.contains("QueryForm.java.vm")) {
-            return backendPathPrefix + "model" + File.separator + "request" + File.separator +  className + "QueryForm.java";
+            return backendPathPrefix + "model" + File.separator + "request" + File.separator + className + "QueryForm.java";
         }
         if (template.contains("SaveOrUpdateForm.java.vm")) {
-            return backendPathPrefix + "model" + File.separator + "request" + File.separator  + className + "SaveOrUpdateForm.java";
+            return backendPathPrefix + "model" + File.separator + "request" + File.separator + className + "SaveOrUpdateForm.java";
         }
         if (template.contains("DTO.java.vm")) {
-            return backendPathPrefix + "model" + File.separator + "trans" + File.separator +  className + "DTO.java";
+            return backendPathPrefix + "model" + File.separator + "trans" + File.separator + className + "DTO.java";
         }
         if (template.contains("VO.java.vm")) {
             return backendPathPrefix + "model" + File.separator + "response" + File.separator + className + "VO.java";

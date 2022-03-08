@@ -15,6 +15,7 @@ import io.renren.dao.GeneratorDao;
 import io.renren.dao.MongoDBGeneratorDao;
 import io.renren.entity.mongo.MongoDefinition;
 import io.renren.factory.MongoDBCollectionFactory;
+import io.renren.form.GeneratorPropertiesForm;
 import io.renren.utils.GenUtils;
 import io.renren.utils.PageUtils;
 import io.renren.utils.Query;
@@ -57,7 +58,9 @@ public class SysGeneratorService {
     }
 
 
-    public byte[] generatorCode(String[] tableNames, String generateType) {
+    public byte[] generatorCode(GeneratorPropertiesForm form) {
+        String tables = form.getTable();
+        String[] tableNames=tables.split(",");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
         for (String tableName : tableNames) {
@@ -66,7 +69,7 @@ public class SysGeneratorService {
             //查询列信息
             List<Map<String, String>> columns = queryColumns(tableName);
             //生成代码
-            GenUtils.generatorCode(table, columns, zip, generateType);
+            GenUtils.generatorCode(table, columns, zip, form);
         }
         if (MongoManager.isMongo()) {
             GenUtils.generatorMongoCode(tableNames, zip);

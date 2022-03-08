@@ -23,10 +23,74 @@
         </fieldset>
         <form class="layui-form layui-form-pane" action="">
             <div class="layui-form-item">
-                <label class="layui-form-label">单行输入框</label>
-                <div class="layui-input-block">
-                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入标题" class="layui-input">
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">字段名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+                    </div>
                 </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">字段类型</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">字段描述</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off"  class="layui-input">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">表单类型</label>
+                    <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                            <option value=""></option>
+                            <option value="0">文本域</option>
+                            <option value="1" selected="">文本框</option>
+                            <option value="2">下拉框</option>
+                            <option value="3">单选框</option>
+                            <option value="4">日期类型</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">关联字典</label>
+                    <div class="layui-input-inline">
+                            <select name="interest" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0">user_dict</option>
+                                <option value="1" selected="">people_dict</option>
+                                <option value="2">menu_dict</option>
+                                <option value="3">org_dict</option>
+                                <option value="4">role_dict</option>
+                            </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">查询方式</label>
+                    <div class="layui-input-inline">
+                        <select name="interest" lay-filter="aihao">
+                            <option value="">等于</option>
+                            <option value="0">大于</option>
+                            <option value="1" selected="">大于等于</option>
+                            <option value="2">小于</option>
+                            <option value="3">小于等于</option>
+                            <option value="4">不等于</option>
+                            <option value="4">LIKE</option>
+                            <option value="4">NOT LIKE</option>
+                        </select>
+                    </div>
+                </div>
+
+
             </div>
 
         </form>
